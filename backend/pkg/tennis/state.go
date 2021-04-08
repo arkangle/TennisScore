@@ -4,6 +4,12 @@ import (
 	"encoding/json"
 )
 
+type Score struct {
+	State  State `json:"state"`
+	Winner int   `json:"winner"`
+	Id     int   `json:"id"`
+}
+
 type State struct {
 	Game  []int `json:"game"`
 	Deuce int   `json:"deuce"`
@@ -11,13 +17,13 @@ type State struct {
 	Match []int `json:"match"`
 }
 
-func NewStateFromJson(str string) (State, error) {
-	response := State{}
+func NewScoreFromJson(str string) (Score, error) {
+	response := Score{}
 	err := json.Unmarshal([]byte(str), &response)
 	return response, err
 }
 
-func (s State) ToJson() (string, error) {
+func (s Score) ToJson() (string, error) {
 	response, err := json.Marshal(&s)
 	if err != nil {
 		return "", err
