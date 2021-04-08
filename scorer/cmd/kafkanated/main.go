@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	brokerAddress := "kafka:9092"
+	brokerAddress := "kafka:9093"
 	reader := kafka.NewReader(kafka.ReaderConfig{
 		Brokers: []string{brokerAddress},
 		Topic:   "score",

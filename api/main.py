@@ -25,8 +25,8 @@ async def status():
 
 @app.post("/score")
 def posted_score(score: Score):
-    _key = bytes(score.id, 'utf-8')
+    _key = bytes(str(score.id), 'utf-8')
     _value = bytes(json.dumps(score.dict()),'utf-8')
-    producer = KafkaProducer(bootstrap_servers=['kafka:9092'])
+    producer = KafkaProducer(bootstrap_servers=['kafka:9093'])
     producer.send('score', key=_key, value=_value)
     return {"status": "CREATED"}
