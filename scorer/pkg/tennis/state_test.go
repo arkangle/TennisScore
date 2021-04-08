@@ -57,8 +57,8 @@ func TestNewScoreFromJson(t *testing.T) {
 	}
 }
 
-func TestScoreToJson(t *testing.T) {
-	template := `
+func TestStateToJson(t *testing.T) {
+	scoreTemplate := `
 	{
 		"state": {
 			"game":[%d,%d],
@@ -68,6 +68,14 @@ func TestScoreToJson(t *testing.T) {
 		},
 		"winner": %d,
 		"id": %d
+	}
+	`
+	stateTemplate := `
+	{
+		"game":[%d,%d],
+		"deuce": %d,
+		"set": [%d,%d],
+		"match": [%d,%d]
 	}
 	`
 	var tests = []struct {
@@ -83,7 +91,7 @@ func TestScoreToJson(t *testing.T) {
 		{[]int{15, 30}, 1, []int{5, 4}, []int{5, 4}, 1, 2, false},
 	}
 	for _, test := range tests {
-		jsonString := fmt.Sprintf(template,
+		jsonScore := fmt.Sprintf(scoreTemplate,
 			test.game[0],
 			test.game[1],
 			test.deuce,
@@ -94,13 +102,22 @@ func TestScoreToJson(t *testing.T) {
 			test.winner,
 			test.id,
 		)
-		score, _ := NewScoreFromJson(jsonString)
+		score, _ := NewScoreFromJson(jsonScore)
+		jsonState := fmt.Sprintf(stateTemplate,
+			test.game[0],
+			test.game[1],
+			test.deuce,
+			test.set[0],
+			test.set[1],
+			test.match[0],
+			test.match[1],
+		)
 		whitespaceReplacer := strings.NewReplacer(" ", "", "\r", "", "\n", "", "\t", "")
-		json, err := score.ToJson()
+		json, err := score.State.ToJson()
 		if err != nil {
 			assert.True(t, test.hasError, err)
 		}
-		assert.Equal(t, whitespaceReplacer.Replace(jsonString), json)
+		assert.Equal(t, whitespaceReplacer.Replace(jsonState), json)
 
 	}
 }

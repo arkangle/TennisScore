@@ -23,7 +23,7 @@ func NewScoreFromJson(str string) (Score, error) {
 	return response, err
 }
 
-func (s Score) ToJson() (string, error) {
+func (s State) ToJson() (string, error) {
 	response, err := json.Marshal(&s)
 	if err != nil {
 		return "", err

@@ -17,12 +17,12 @@ func TestSetNext(t *testing.T) {
 	}{
 		{[]int{0, 0}, 0, []int{1, 0}, false, false},
 		{[]int{3, 0}, 0, []int{4, 0}, false, false},
-		{[]int{5, 0}, 0, []int{6, 0}, true, false},
-		{[]int{0, 5}, 1, []int{0, 6}, true, false},
+		{[]int{5, 0}, 0, []int{0, 0}, true, false},
+		{[]int{0, 5}, 1, []int{0, 0}, true, false},
 		{[]int{5, 5}, 1, []int{5, 6}, false, false},
 		{[]int{5, 6}, 0, []int{6, 6}, false, false},
-		{[]int{5, 6}, 1, []int{5, 7}, true, false},
-		{[]int{6, 6}, 1, []int{6, 7}, true, false},
+		{[]int{5, 6}, 1, []int{0, 0}, true, false},
+		{[]int{6, 6}, 1, []int{0, 0}, true, false},
 		{[]int{8, 6}, 1, []int{0, 0}, false, true},
 		{[]int{-1, 6}, 1, []int{0, 0}, false, true},
 	}

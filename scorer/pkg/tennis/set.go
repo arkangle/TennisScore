@@ -30,7 +30,7 @@ func (s Set) Next(current []int, winner int) ([]int, bool, error) {
 		if s.WinByTwo && diff == 1 && next[winner] < s.Limit {
 			return next, false, nil
 		}
-		return next, true, nil
+		return []int{0, 0}, true, nil
 	}
 	return next, false, nil
 }

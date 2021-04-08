@@ -1,4 +1,4 @@
-module github.com/arkangle/tennisscrore/backend
+module github.com/arkangle/tennisscore/scorer
 
 go 1.14
 
