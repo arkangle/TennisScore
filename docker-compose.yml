@@ -22,6 +22,18 @@ services:
     volumes:
       - ./:/opt/app
 
+  ws:
+    stdin_open: true
+    tty: true
+    build:
+      context: ./ws
+      args:
+        USERID: ${UID}
+    ports:
+      - "8008:8008"
+    volumes:
+      - ./:/opt/app
+
   zookeeper:
     image: wurstmeister/zookeeper:3.4.6
     expose:
