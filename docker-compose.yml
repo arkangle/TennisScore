@@ -12,6 +12,15 @@ services:
     volumes:
       - ./:/opt/app
 
+  web:
+    stdin_open: true
+    tty: true
+    image: nginx:mainline-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web:/usr/share/nginx/html
+
   scorer:
     stdin_open: true
     tty: true
@@ -38,6 +47,8 @@ services:
     image: wurstmeister/zookeeper:3.4.6
     expose:
     - "2181"
+    volumes:
+     - zkdata:/opt/zookeeper-3.4.6/data
 
   kafka:
     image: wurstmeister/kafka:2.11-2.0.0
@@ -56,6 +67,7 @@ services:
       KAFKA_CREATE_TOPICS: "score:1:1"
     volumes:
      - /var/run/docker.sock:/var/run/docker.sock
+     - kafkadata:/kafka
 
   kafdrop:
     image: obsidiandynamics/kafdrop:latest
@@ -70,3 +82,6 @@ services:
       KAFKA_BROKERCONNECT: //kafka:9092
       JVM_OPTS: "-Xms32M -Xmx64M"
       SERVER_SERVLET_CONTEXTPATH: "/"
+volumes:
+  kafkadata: {}
+  zkdata: {}

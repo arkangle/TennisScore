@@ -30,19 +30,21 @@ func processMessage(message kafka.Message) tennis.State {
 		}
 	}
 
+	fmt.Printf("Message[%d] %s = %s\n", message.Offset, message.Key, message.Value)
 	return score.State
 }
 
 func main() {
 	brokerAddress := "kafka:9093"
 	reader := kafka.NewReader(kafka.ReaderConfig{
-		Brokers:     []string{brokerAddress},
-		Topic:       "score",
-		StartOffset: kafka.LastOffset,
+		Brokers: []string{brokerAddress},
+		Topic:   "score",
+		GroupID: "scorer",
 	})
 	writer := kafka.NewWriter(kafka.WriterConfig{
-		Brokers: []string{brokerAddress},
-		Topic:   "websocket",
+		Brokers:   []string{brokerAddress},
+		Topic:     "websocket",
+		BatchSize: 1,
 	})
 	ctx := context.Background()
 	for {
@@ -57,6 +59,7 @@ func main() {
 			Key:   message.Key,
 			Value: []byte(wsMessage),
 		})
+		fmt.Printf("Sent To Websocket: %s\n", wsMessage)
 	}
 
 }

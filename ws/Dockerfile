@@ -14,4 +14,4 @@ WORKDIR /opt/app/ws
 
 USER app
 
-CMD ["/usr/bin/npm", "start"]
+CMD ["/usr/bin/npm", "run", "dev"]

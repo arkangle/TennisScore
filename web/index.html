@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>Tennis Score</title>
+        <script src="https://cdn.socket.io/4.0.1/socket.io.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+        <script>
+        const socket = io("ws://localhost:8008");
+        socket.on("connect", () => {
+            socket.send("connect message from client");
+            console.log("connected: " + socket.id);
+        })
+        socket.on("message", (message) => {
+            console.log(message);
+        })
+        socket.on("update-score", (message) => {
+            console.log("UPDATE SCORE");
+            updateScore(message);
+        })
+        socket.on("disconnect", () => {
+            console.log("disconnect from server");
+        })
+        </script>
+        <script>
+            function updateScore(data) {
+                var field = document.getElementById('state'); 
+                field.innerHTML = data;
+            }
+            function sendScore(player) {
+                var field = document.getElementById('state'); 
+                var state = JSON.parse(field.value);
+                var data = {}
+                data.winner = player
+                data.id = 1234
+                data.state = state 
+                axios.post("http://localhost:8000/score", data)
+                    .then(function(response) {
+                        console.log(response)
+                    })
+                    .catch(function(response) {
+                        console.log(response)
+                    });
+                return false;
+            }
+        </script>
+    </head>
+    <body>
+        <form name='tennisscore' onsubmit='return false'>
+
+<textarea name='state' id='state' cols='40' rows='20'>
+{
+    "game": [0,0],
+    "set": [0,0],
+    "match": [0,0],
+    "deuce": 0
+}
+</textarea>
+<br>
+<button onclick='return sendScore(0)'>Player 1</button>
+<button onclick='return sendScore(1)'>Player 2</button>
+        </form>
+    </body>
+</html>

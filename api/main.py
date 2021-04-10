@@ -3,6 +3,7 @@
 import json
 from typing import List
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from kafka import KafkaProducer
 
@@ -19,6 +20,13 @@ class Score(BaseModel):
     winner: int
     id:     int
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=True
+)
 @app.get("/status")
 async def status():
     return {"status": "OK"}
